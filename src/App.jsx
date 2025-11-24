@@ -1,5 +1,7 @@
 import { Route, Routes } from "react-router-dom"
-import Dashboard from "./assets/pages/Dashboard"
+import Dashboard from "./pages/Dashboard/Dashboard"
+
+
 
 function App() {
  
