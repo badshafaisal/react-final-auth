@@ -12,33 +12,36 @@ function Login() {
     const [password,setPassword] =useState("");
     const [errors,setErrors] =useState(null);
 
-    const handleLogin = async (e) =>{
-        e.preventDefault();
-        setErrors(null);
+    const handleLogin = async (e) => {
+  e.preventDefault();
+  setErrors(null);
 
-        try{
+  try {
+  
+    await axiosClient.get("/sanctum/csrf-cookie");
 
-            await axiosClient.get("/sanctum/csrf-cookie");
+    // 2️⃣ Login API call (with credentials)
+    await axiosClient.post("/api/login", {
+      email,
+      password
+    }, { withCredentials: true }); // <-- credentials ঠিকভাবে যাবে
 
-            await axiosClient.post("/api/login",{
-                email,
-                password
-            });
-            const userResponse = await axiosClient.get("/api/user");
-            setUser(userResponse.data); 
-            navigate('/');
+    // 3️⃣ User data fetch
+    const userResponse = await axiosClient.get("/api/user", { withCredentials: true });
+    setUser(userResponse.data);
 
-        }catch (error){
-            if(error.response && error.response.status === 422){
-                setErrors(error.response.data.errors||{general:[error.response.data.message]});
-            }else{
-                setErrors({general:["login failed due to an unexpected error.Please try again."]});
-                console.log("Error Occured:",error);
-                
-            }
-        }
+    // 4️⃣ Redirect
+    navigate('/');
 
+  } catch (error) {
+    if (error.response && error.response.status === 422) {
+      setErrors(error.response.data.errors || { general: [error.response.data.message] });
+    } else {
+      setErrors({ general: ["Login failed due to an unexpected error. Please try again."] });
+      console.log("Error Occurred:", error);
     }
+  }
+};
    
     
 

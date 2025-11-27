@@ -6,6 +6,7 @@ import SignUp from "../pages/Auth/SignUp";
 import Protected from "./Protected";
 import UserList from "../pages/Dashboard/Users/Userlist";
 import AddUser from "../pages/Dashboard/Users/AddUser";
+import UpdateUser from "../pages/Dashboard/Users/UpdateUser";
 
 function AppRouter() {
   return (
@@ -20,6 +21,7 @@ function AppRouter() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/user/userlist" element={<UserList/>}/>
           <Route path="/user/add_user" element={<AddUser/>}/>
+          <Route path="/user/update_user/:id" element={<UpdateUser/>}/>
         </Route>
       </Routes>
     </div>
